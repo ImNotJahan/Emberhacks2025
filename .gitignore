@@ -2,3 +2,5 @@
 llm_interface/*.txt
 .idea/*
 *.pyc
+__pycache__/
+__pycache__/*
