@@ -5,15 +5,6 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
-"""
-@app.route("/submit", methods=["POST"])
-def submit():
-    # Get data from the form
-    input = request.form.get("input")
-    # Do something with it (store, process, etc.)
-    return render_template("index.html", text=input)
-"""
-
 @app.route("/send", methods=["POST"])
 def send():
     data = request.get_json()
