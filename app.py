@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, jsonify
+from latex_extension.data import MeasuredData
+
 app = Flask(__name__)
 
 @app.route("/")
