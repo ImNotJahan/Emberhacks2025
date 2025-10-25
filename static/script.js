@@ -5,7 +5,7 @@ document.getElementById("Btn_input").addEventListener("click", async () => {
   const response = await fetch("/getInput", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text: input , isFull: checked})
+    body: JSON.stringify({ text: input })
   });
   document.getElementById("responseText").textContent = data.message;//Prints out the values ----TEST TEST TEST
   document.getElementById("sol").textContent = data.sol;//Prints out the values
