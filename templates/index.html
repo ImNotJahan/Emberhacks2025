@@ -6,7 +6,7 @@
   <meta name="description" content="A brief description of your webpage" />
   <title>Page Title</title>
 
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
@@ -16,27 +16,22 @@
 <body>
 
   <header>
-    <h1>Website Name</h1>
-    <nav>
+    <h1>Uncertainty Propagator</h1>
+    <!-- <nav>
       <ul>
         <li><a href="#inputs">Input</a></li>
       </ul>
-    </nav>
+    </nav> -->
   </header>
 
   <main>
     <section id="inputs">
-      <h2>Add the all the data below</h2>
-      <input type="text" id = "input" name="input_t" placeholder="Enter your input:">
+      <h2>Write the formula, varibles, units (SI format) and all known uncertainties for the calculation in text or LateX form</h2>
+      <textarea id="input" name="input_t" placeholder="Enter your input:"></textarea>
       <button type = "submit" id="Btn_input">
     </section>
     <p id="responseText"></p>
   </main>
-
-  <footer>
-    <p>&copy; 2025 Your Name. All rights reserved.</p>
-  </footer>
-
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
