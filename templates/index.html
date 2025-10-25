@@ -19,11 +19,18 @@
       <button type = "submit" id="Btn_input">
     </section>
     <p id="responseText"></p>
+    <section>
+      <details>
+        <summary>Click to open all solution</summary>
+        <p id = "sol"></p>
+      </details>
+      <details>
+        <summary>Click to open all equation</summary>
+        <p id = "equ"></p>
+      </details>
+      <p id = "val">0</p>
+    </section>
   </main>
-  <footer>
-    <input type="checkbox" id="full_work">
-    I want full work snow? (in standard state you will see only solution)
-  </footer>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

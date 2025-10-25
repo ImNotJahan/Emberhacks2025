@@ -41,14 +41,17 @@ class RequestsManager:
     def read_vars() -> IOError | tuple[str, str]:
         """Reads api_key and json_parsing_rules from the files to use later
         """
-        assert os.path.exists("api.txt"), "api_key exists"
-        assert os.path.exists("json_parsing_rules.txt"), "rules file exists"
+        api_file_path = "llm_interface\\api.txt"
+        rule_file_path = "llm_interface\\json_parsing_rules.txt"
+
+        assert os.path.exists(api_file_path), "api_key exists"
+        assert os.path.exists(rule_file_path), "rules file exists"
 
         RequestsManager.__log.critical("Reading files...")
         key, rules = None, None
-        with open("api.txt", "r") as f:
+        with open(api_file_path, "r") as f:
             key = f.readline().split("=")[1]
-        with open("json_parsing_rules.txt", "r") as f:
+        with open(rule_file_path, "r") as f:
             rules = "".join(f.readlines())
         if key is None or rules is None:
             raise IOError("Failed reading variables")
