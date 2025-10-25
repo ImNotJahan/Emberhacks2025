@@ -1,4 +1,5 @@
 import os
+from os import path
 
 from typing import Any
 import logging
@@ -41,8 +42,8 @@ class RequestsManager:
     def read_vars() -> IOError | tuple[str, str]:
         """Reads api_key and json_parsing_rules from the files to use later
         """
-        api_file_path = "llm_interface\\api.txt"
-        rule_file_path = "llm_interface\\json_parsing_rules.txt"
+        api_file_path = path.join("llm_interface", "api.txt")
+        rule_file_path = path.join("llm_interface", "json_parsing_rules.txt")
 
         assert os.path.exists(api_file_path), "api_key exists"
         assert os.path.exists(rule_file_path), "rules file exists"
