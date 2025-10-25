@@ -2,27 +2,15 @@ from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
 @app.route("/")
-def home():
+def home(): #Sets the website
     return render_template("index.html")
-
-@app.route("/send", methods=["POST"])
-def send():
+@app.route("/getInput", methods=["POST"])  #Gets the input
+def getInput():
     data = request.get_json()
     text = data.get("text", "")
     isFull = data.get("isFull", "")
     print(text)
     print(isFull)
-    return jsonify({"message": f"Answer: {text}"})
-
-"""
-@app.route("/submit", methods=["POST"])
-def submit():
-    isFull = request.form.get("fullWork") 
-    if isFull:
-        print("Full")
-    else:
-        print("NotFull")
-    return None
-"""
+    return jsonify({"message": f"Answer: {text}"}) #Gives out teh answer
 
 #python -m flask run
