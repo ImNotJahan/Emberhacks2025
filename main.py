@@ -1,5 +1,3 @@
-import json
-from latex_extension.data import MeasuredData
 from app import start_server
 
 def main():

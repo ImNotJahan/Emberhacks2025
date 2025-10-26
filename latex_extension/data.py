@@ -182,14 +182,17 @@ class MeasuredData(md):
             vals = self_mapping_var_letters
         return at_format(step, vals, add_parenthesis)
 
-    def all_steps_sequential(self, plug_in_vars=True, trunc_nums=True) -> tuple[list[str], list[str]]:
+    def all_steps_sequential(self, plug_in_vars=True, trunc_nums=True) -> tuple[list[str], list[str], list]:
         value_steps       = []
         uncertainty_steps = []
+        data_points       = []
 
         # recursively add steps of any previously calculated MeasuredDatas to step lists
         def apnd_step(dp: MeasuredData):
             value_steps.append(dp.recent_step(True, plug_in_vars, trunc_nums, False))
             uncertainty_steps.append(dp.recent_step(False, plug_in_vars, trunc_nums, False))
+
+            data_points.append(dp)
 
             for sdp in dp.step_variables:
                 if isinstance(sdp, MeasuredData) and sdp.has_steps:
@@ -198,7 +201,7 @@ class MeasuredData(md):
         apnd_step(self)
 
         # reverse step lists so that earliest steps are first
-        return value_steps[::-1], uncertainty_steps[::-1]
+        return value_steps[::-1], uncertainty_steps[::-1], data_points
 
 def at_format(s: str, vals: dict[str, MeasuredData | float], add_parenthesis=False):
     """
