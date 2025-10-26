@@ -1,7 +1,13 @@
+const console_txt = document.getElementById("console");
+const responses   = document.getElementById("responses");
+
 document.getElementById("Btn_input").addEventListener("click", async () => {
   const input = document.getElementById("input").value;
   isWaiting = false
-  document.getElementById("console").innerHTML = "Waiting!";
+
+  document.getElementById("console").innerHTML = "Calculating...";
+  console_txt.style.color = "black";
+  
   //Sends the input
   const response = await fetch("/getInput", {
     method: "POST",
@@ -11,11 +17,12 @@ document.getElementById("Btn_input").addEventListener("click", async () => {
   const data = await response.json();
 
   if(data.failed) {
-    document.getElementById("responses").style.display = "none";
-    document.getElementById("console").innerHTML = data.console;
+    responses.style.display = "none";
+    console_txt.innerHTML   = data.console;
+    console_txt.style.color = "red"
     return;
   } else {
-    document.getElementById("responses").style.display = "block";
+    responses.style.display = "block";
   }
 
   document.getElementById("sol").innerHTML = data.sol;//Prints out the values

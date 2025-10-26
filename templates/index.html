@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="A brief description of your webpage" />
-  <title>Page Title</title>
+  <meta name="description" content="An equation evaluator and LaTeX generator, with automatic uncertainty propagation
+  and an easy-to-use AI powered frontend." />
+  <title>certainPY</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
@@ -12,17 +13,19 @@
   <header>
     <h1>Uncertainty Propagator</h1>
     <nav>
-      <a href="\">Go to Mainpage</a>
-      <a href="login">Go to Login</a>
-      <a href="sighnin">Go to Sighn In</a>
+      <a href="\">Home</a>
+      <a href="login">Login</a>
+      <a href="sighnin">Sign up</a>
     </nav>
   </header>
   <main>
     <section id="inputs">
-      <h2>Write the formula, varibles, units (SI format) and all known uncertainties for the calculation in text or LateX form</h2>
+      <h2>Write the formula, variables, units (SI format) and all known uncertainties for the calculation in text or LateX form</h2>
       <div class="column">
         <div>
-          <textarea id="input" placeholder="Enter your input:">I have an equation for calculating potential spring energy, c*k*(xi_c-xi_u)^2, such that c=0.5, k=98.0\pm4, xi_c=0.903 and xi_u=0.871, where both xi_c and xi_u have an uncertainty of 0.005</textarea>
+          <textarea id="input" placeholder="I have an equation for calculating potential spring energy,
+          c*k*(xi_c-xi_u)^2, such that c=0.5, k=98.0\pm4, xi_c=0.903 and xi_u=0.871, where both xi_c and xi_u have an
+          uncertainty of 0.005"></textarea>
         </div>
         <div>
           <button type = "submit" id="Btn_input">SUBMIT</button>
@@ -31,19 +34,19 @@
     </section>
     <section>
       <h2>Console</h2>
-      <p id = "console">Console</p>
+      <p id = "console"></p>
     </section>
     <section>
       <h2>Output</h2>
-        <p style="color:red" id="err"></p>
+        <p id="err"></p>
         <div id="responses" style="display:none">
       <details>
-        <summary>Click to open all solution</summary>
-        <p id = "sol">Solution</p>
+        <summary>Click to see sequential steps</summary>
+        <p id = "sol"></p>
       </details>
       <details>
-        <summary>Click to open all equation</summary>
-        <p id = "equ">Equation</p>
+        <summary>Click to see composite steps</summary>
+        <p id = "equ"></p>
       </details>
       <p id = "val">0</p>
             </div>
