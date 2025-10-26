@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, jsonify
 from llm_interface.request_manager import RequestsManager
 from server_to_latex_glue import send_llm_parsing
 from llm_to_server_glue import parse_json
+from flask import Response
+import json
 
 app = Flask(__name__)
 manager = RequestsManager()
@@ -19,7 +21,13 @@ def getInput():
     print(value)
     print(solution)
     print(equation)
-    return jsonify({"val": value, "sol": solution, "equ": equation}) #Gives out the answer
+
+    payload = {"val": value, "sol": solution, "equ": equation}
+
+    return Response(
+        json.dumps(payload, ensure_ascii=False),
+        mimetype="application/json"
+    )
 
 def start_server():
     print("=== Starting server ===")

@@ -8,8 +8,8 @@ document.getElementById("Btn_input").addEventListener("click", async () => {
     body: JSON.stringify({ text: input })
   });
   const data = await response.json();
-  document.getElementById("sol").textContent = data.sol;//Prints out the values
-  document.getElementById("equ").textContent = data.equ;//Prints out the values
-  document.getElementById("val").textContent = data.val;//Prints out the values
+  document.getElementById("sol").innerHTML = data.sol;//Prints out the values
+  document.getElementById("equ").innerHTML = data.equ;//Prints out the values
+  document.getElementById("val").innerHTML = data.val;//Prints out the values
   console.log(data)
 });
