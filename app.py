@@ -10,8 +10,14 @@ manager = RequestsManager()
 console_txt = "Console"
 
 @app.route("/")
-def home(): #Sets the website
+def home(): #Sets the website to index - main html
     return render_template("index.html")
+@app.route("/sighnin")
+def sighnin():
+    return render_template("sighnin.html")
+@app.route("/login")
+def login():
+    return render_template("login.html")
 
 @app.route("/getInput", methods=["POST"])  #Gets the req
 def getInput():

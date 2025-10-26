@@ -84,7 +84,7 @@ section {
 }
 
 /* ===== Form controls ===== */
-textarea#input {
+textarea#input,textarea#email_l,textarea#password_l,textarea#user_l,textarea#user_s,textarea#password_s,textarea#email_s {
   width: 100%;
   min-height: 140px;
   padding: 12px 14px;
@@ -96,14 +96,14 @@ textarea#input {
   transition: border-color .15s ease, box-shadow .15s ease;
   resize: vertical; /* allow manual grow */
 }
-textarea#input::placeholder { color: #9ca3af; }
-textarea#input:focus {
+textarea#input::placeholder,textarea#email_l::placeholder,textarea#password_l::placeholder,textarea#user_l::placeholder,textarea#user_s::placeholder,textarea#password_s::placeholder,textarea#email_s::placeholder { color: #9ca3af; }
+textarea#input:focus,textarea#email_l:focus,textarea#password_l:focus,textarea#user_l:focus,textarea#user_s:focus,textarea#password_s:focus,textarea#email_s:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 25%, transparent);
 }
 
 /* Button */
-#Btn_input {
+#Btn_input,#Btn_login,#Btn_sighn {
   align-self: flex-start;         /* keep narrow like a button */
   padding: 10px 18px;
   background: var(--accent);
@@ -116,9 +116,9 @@ textarea#input:focus {
   box-shadow: 0 6px 14px rgba(37, 99, 235, .18);
   
 }
-#Btn_input:hover { filter: brightness(1.05); }
-#Btn_input:active { transform: translateY(1px); }
-#Btn_input:disabled {
+#Btn_input:hover,#Btn_login:hover,#Btn_sighn:hover { filter: brightness(1.05); }
+#Btn_input:active,#Btn_login:active,#Btn_sighn:active { transform: translateY(1px); }
+#Btn_input:disabled,#Btn_login:disabled,#Btn_sighn:disabled {
   opacity: .6;
   cursor: not-allowed;
   box-shadow: none;

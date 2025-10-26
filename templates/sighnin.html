@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A brief description of your webpage" />
+  <title>Page Title</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+  <header>
+    <h1>Sighn In</h1>
+    <nav>
+      <a href="\">Go to Mainpage</a> |
+      <a href="login">Go to Login</a>
+      <a href="sighnin">Go to Sighn In</a>
+    </nav>
+  </header>
+  <main>
+    <section id="inputs">
+      <h2>Write your data to sighn in</h2>
+      <div class="column">
+        <div>
+          <textarea id="user_s" placeholder="Enter your username:"></textarea>
+        </div>
+        <div>
+          <textarea id="password_s" placeholder="Enter your password:"></textarea>
+        </div>
+        <div>
+          <textarea id="email_s" placeholder="Enter your email:"></textarea>
+        </div>
+        <div>
+          <button type = "submit" id="Btn_sighn">SUBMIT</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
