@@ -1,0 +1,89 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8" />-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0" />-->
+<!--  <meta name="description" content="A brief description of your webpage" />-->
+<!--  <title>Page Title</title>-->
+<!--  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">-->
+<!--  <link rel="icon" href="favicon.ico" type="image/x-icon" />-->
+<!--</head>-->
+<!--<body>-->
+<!--  <header>-->
+<!--    <h1>Sighn In</h1>-->
+<!--    <nav>-->
+<!--      <a href="\">Go to Home Page</a>-->
+<!--      <a href="login">Go to Login</a>-->
+<!--      <a href="sighnin">Go to Sign In</a>-->
+<!--    </nav>-->
+<!--  </header>-->
+<!--  <main>-->
+<!--    <section id="inputs">-->
+<!--      <h2>Write your data to sign in</h2>-->
+<!--      <div class="column">-->
+<!--        <div>-->
+<!--          <textarea id="user_s" placeholder="Enter your username:"></textarea>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <textarea id="password_s" placeholder="Enter your password:"></textarea>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <textarea id="email_s" placeholder="Enter your email:"></textarea>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <button type = "submit" id="Btn_sighn">SUBMIT</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </section>-->
+<!--  </main>-->
+<!--  <script src="{{ url_for('static', filename='script.js') }}"></script>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A brief description of your webpage" />
+  <title>Sign In</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+  <header>
+    <h1>Sign In</h1>
+    <nav>
+      <a href="/">Go to Home Page</a>
+      <a href="/login">Go to Login</a>
+<!--      <a href="signin.html">Go to Sign In</a>-->
+    </nav>
+  </header>
+  <main>
+    <section id="inputs">
+      <h2>Enter your data to sign up</h2>
+
+      <form id="signInForm" method="POST" action="/">
+        <div class="column">
+          <div>
+            <label for="user_s">Username:</label>
+            <input type="text" id="user_s" name="username" placeholder="Enter your username:" required>
+          </div>
+          <div>
+            <label for="email_s">Email:</label>
+            <input type="email" id="email_s" name="email" placeholder="Enter your email:" required>
+          </div>
+          <div>
+            <label for="password_s">Password:</label>
+            <input type="password" id="password_s" name="password" placeholder="Enter your password:" required>
+          </div>
+          <div>
+            <button type="submit" id="btn_sign_in">SUBMIT</button>
+          </div>
+        </div>
+      </form>
+      </section>
+  </main>
+  <script src="{{ url_for('static', filename='script_signup.js') }}"></script>
+</body>
+</html>

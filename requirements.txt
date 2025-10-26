@@ -1,3 +1,4 @@
 git+https://github.com/ImNotJahan/PhysicsTools.git
 google-genai
 flask
+flask-httpauth

@@ -12,28 +12,47 @@
   <header>
     <h1>Login</h1>
     <nav>
-      <a href="\">Go to Mainpage</a>
-      <a href="login">Go to Login</a>
-      <a href="sighnin">Go to Sighn In</a>
+      <a href="/">Go to Home Page</a>
+<!--      <a href="login.html">Go to Login</a>-->
+      <a href="/signin">Go to Sign UP</a>
     </nav>
   </header>
   <main>
     <section id="inputs">
       <h2>Write your data to login</h2>
-      <div class="column">
-        <div>
-          <textarea id="user_l" placeholder="Enter your username:"></textarea>
+<!--      <div class="column">-->
+<!--        <div>-->
+<!--          <textarea id="user_l" placeholder="Enter your username:"></textarea>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <textarea id="password_l" placeholder="Enter your password:"></textarea>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <textarea id="email_l" placeholder="Enter your email:"></textarea>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <button type = "submit" id="btn_login">SUBMIT</button>-->
+<!--        </div>-->
+<!--      </div>-->
+      <form id="login_form" method="POST" action="/">
+        <div class="column">
+          <div>
+            <label for="user_s">Username:</label>
+            <input type="text" id="user_s" name="username" placeholder="Enter your username:" required>
+          </div>
+          <div>
+            <label for="email_s">Email:</label>
+            <input type="email" id="email_s" name="email" placeholder="Enter your email:" required>
+          </div>
+          <div>
+            <label for="password_s">Password:</label>
+            <input type="password" id="password_s" name="password" placeholder="Enter your password:" required>
+          </div>
+          <div>
+            <button type="submit" id="btn_sign_in">SUBMIT</button>
+          </div>
         </div>
-        <div>
-          <textarea id="password_l" placeholder="Enter your password:"></textarea>
-        </div>
-        <div>
-          <textarea id="email_l" placeholder="Enter your email:"></textarea>
-        </div>
-        <div>
-          <button type = "submit" id="Btn_login">SUBMIT</button>
-        </div>
-      </div>
+      </form>
     </section>
   </main>
   <script src="{{ url_for('static', filename='scriptlogin.js') }}"></script>

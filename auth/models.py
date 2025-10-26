@@ -29,35 +29,43 @@ class User:
 class RequestDto:
     author_id: int
     req: str
-    response: str
+    value: float
+    solution: str
+    equation: str
 
 @dataclass
 class RequestDtoResponse:
     id: int
     req: str
-    response: str
+    value: float
+    solution: str
+    equation: str
     timestamp: datetime
-
 
 @dataclass
 class Request:
     id: Optional[int]
     author_id: int
     req: str
-    response: str
+    value: float
+    solution: str
+    equation: str
     timestamp: datetime
 
     @staticmethod
     def from_dto(dto: RequestDto):
         return Request(None, dto.author_id, dto.req,
-                       dto.response, datetime.now())
+                       dto.value, dto.solution,dto.equation, datetime.now())
 
     def to_dto(self) -> RequestDtoResponse:
         return RequestDtoResponse(self.id, self.req,
-                                  self.response, self.timestamp)
+                                  self.value, self.solution, self.equation,
+                                  self.timestamp)
 
     @classmethod
     def from_record(cls, record: tuple):
-        if len(record) == 5:
-            return cls(id=record[0], author_id=record[1], req=record[2], response=record[3], timestamp=record[4])
-        raise ValueError(f"Record tuple must contain 5 elements. Got {len(record)}")
+        if len(record) == 7:
+            return cls(id=record[0], author_id=record[1], req=record[2],
+                       value=record[3], solution=record[4], equation=record[5],
+                       timestamp=record[6])
+        raise ValueError(f"Record tuple must contain 7 elements. Got {len(record)}")

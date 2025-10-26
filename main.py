@@ -1,10 +1,11 @@
-from app import start_server
+from app import Application
 
 def main():
+    app = Application()
     """
     Initialize server and everything
     """
-    start_server()
+    app.start_server()
 
 if __name__ == "__main__":
     main()

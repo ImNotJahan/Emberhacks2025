@@ -65,10 +65,9 @@ class Database:
         print("[INFO] Created " + repr(user))
         return user
 
-    def get_user(self, user_id: int) -> Optional[User]:
-        sql = "SELECT id, username, email, password FROM users WHERE id = ?"
-        self.__exec(sql, (user_id,))
-        print(f"[INFO] GET users/{user_id}")
+    def get_user(self, sql: str, data: tuple):
+        print("[INFO] GET users")
+        self.__exec(sql, data)
         record = self.__cur.fetchone()
         if record is None:
             return None
@@ -76,14 +75,26 @@ class Database:
         print(f"[INFO] " + repr(user))
         return user
 
+    def get_user_by_id(self, user_id: int) -> Optional[User]:
+        sql = "SELECT id, username, email, password FROM users WHERE id = ?"
+        return self.get_user(sql, (user_id,))
+
+    def get_user_by_email(self, email: str) -> Optional[User]:
+        sql = "SELECT id, username, email, password FROM users WHERE email = ?"
+        return self.get_user(sql, (email, ))
+
+    def get_user_by_username(self, username: str) -> Optional[User]:
+        sql = "SELECT id, username, email, password FROM users WHERE email = ?"
+        return self.get_user(sql, (username, ))
+
     def post_request(self, dto: RequestDto) -> RequestDtoResponse:
-        if dto.author_id is None or self.get_user(dto.author_id) is None:
+        if dto.author_id is None or self.get_user_by_id(dto.author_id) is None:
             raise
-        sql = ("INSERT INTO requests (author_id, req, response, created)"
-               " VALUES (?, ?, ?, ?)")
+        sql = ("INSERT INTO requests (author_id, req, value, solution, equation, created)"
+               " VALUES (?, ?, ?, ?, ?, ?)")
         request = Request.from_dto(dto)
-        data = (request.author_id, request.req, request.response,
-                request.timestamp)
+        data = (request.author_id, request.req, request.value,
+                request.solution, request.equation, request.timestamp)
         print("[INFO] POST requests")
         self.__exec(sql, data)
         request.id = self.__cur.lastrowid
@@ -92,7 +103,7 @@ class Database:
 
     def get_all_requests_by_user_id(self, user_id: int) \
             -> list[RequestDtoResponse]:
-        if self.get_user(user_id) is None:
+        if self.get_user_by_id(user_id) is None:
             raise
         sql = "SELECT * FROM requests WHERE author_id = ?"
         print(f"GET requests/{user_id}")
@@ -101,6 +112,16 @@ class Database:
                 for record in self.__cur.fetchall()]
         print(f"[INFO] Response: {lst}")
         return lst
+
+    def username_is_taken(self, username: str) -> bool:
+        sql = "SELECT * FROM users WHERE username=?"
+        self.__exec(sql, (username, ))
+        return len(self.__cur.fetchall()) == 0
+
+    def email_is_taken(self, email: str) -> bool:
+        sql = "SELECT * FROM users WHERE email=?"
+        self.__exec(sql, (email, ))
+        return len(self.__cur.fetchall()) == 0
 
     def __del__(self):
         try:
