@@ -30,6 +30,8 @@
     </section>
     <section>
       <h2>Output</h2>
+        <p style="color:red" id="err"></p>
+        <div id="responses" style="display:none">
       <details>
         <summary>Click to open all solution</summary>
         <p id = "sol">Solution</p>
@@ -39,6 +41,7 @@
         <p id = "equ">Equation</p>
       </details>
       <p id = "val">0</p>
+            </div>
     </section>
   </main>
   <script src="{{ url_for('static', filename='script.js') }}"></script>

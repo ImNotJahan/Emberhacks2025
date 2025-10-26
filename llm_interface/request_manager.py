@@ -4,6 +4,8 @@ from os import path
 from typing import Any
 import logging
 
+import llm_to_server_glue
+
 try:
     from google import genai
     from google.genai.types import GenerateContentResponse as GCR
@@ -88,32 +90,34 @@ class RequestsManager:
         self.__log.critical(RequestsManager.__format_log(input_prompt, response))
         return response.text
 
-    def __validate_prompt(self, input_prompt: str) -> AssertionError | bool:
+    def __validate_prompt(self, input_prompt: str) -> str | bool:
         """Function validates if enough information was to preform calculations
         """
-        validation_prompt = (input_prompt +
-                             "\nAre there enough information to evaluate"
-                             " the formula?"
-                             " Answer yes or no without explanation please")
-        response = self.__generate_answer(validation_prompt).lower()
-        if "yes" in response and "no" in response:
-            raise AssertionError("The answer is not clearly defined")
-        elif "yes" in response: return True
-        elif "no" in response: return False
-        raise AssertionError("Response is invalid")
+        validation_prompt = (input_prompt + """ 
+        Is there enough information to evaluate the given formula by plugging in the provided variables? If there is,
+        respond YES. Otherwise, respond with an explanation as to why, which the user can read and easily understand.""")
 
-    def get_response(self, input_prompt: str) -> ValueError | str:
+        response = self.__generate_answer(validation_prompt)
+
+        if "YES" in response:
+            return True
+
+        return response
+
+
+    def get_response(self, input_prompt: str) -> str:
         """Given the prompt returns a json with equation and variables"""
         try:
             is_valid = self.__validate_prompt(input_prompt)
             self.__log.critical(f"is_valid={is_valid}")
-            if not is_valid:
-                raise ValueError("There are not enough information provided")
+
+            if is_valid != True:
+                return "[ERR]" + is_valid
         except AssertionError:
             raise "Prompt has flaws"
         final_prompt = (input_prompt +
                         "\n" +
                         self.rule_set)
         response = self.__generate_answer(final_prompt)
-        self.__generate_answer("Thank you for your help!")
+
         return self.__process_json(response)

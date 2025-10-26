@@ -17,13 +17,22 @@ def home(): #Sets the website
 def getInput():
     data = request.get_json()
     text = data.get("text", "")
-    answerDic, equationPy = parse_json(manager.get_response(text))
+
+    response = manager.get_response(text)
+
+    # check if an error occurred
+    if response[:5] == "[ERR]":
+        return Response(
+            json.dumps({"failed": True, "console": response[5:]}),
+            mimetype="application.json"
+        )
+
+    answerDic, equationPy = parse_json(response)
     value, solution, equation = send_llm_parsing(equationPy,answerDic)
-    print(value)
-    print(solution)
-    print(equation)
+
     console_txt = "Done!"
-    payload = {"val": value, "sol": solution, "equ": equation, "console": console_txt}
+
+    payload = {"val": value, "sol": solution, "equ": equation, "console": console_txt, "failed": False}
 
     return Response(
         json.dumps(payload, ensure_ascii=False),

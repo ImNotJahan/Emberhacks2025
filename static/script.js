@@ -9,6 +9,15 @@ document.getElementById("Btn_input").addEventListener("click", async () => {
     body: JSON.stringify({ text: input })
   });
   const data = await response.json();
+
+  if(data.failed) {
+    document.getElementById("responses").style.display = "none";
+    document.getElementById("console").innerHTML = data.console;
+    return;
+  } else {
+    document.getElementById("responses").style.display = "block";
+  }
+
   document.getElementById("sol").innerHTML = data.sol;//Prints out the values
   document.getElementById("equ").innerHTML = data.equ;//Prints out the values
   document.getElementById("val").innerHTML = data.val;//Prints out the values
