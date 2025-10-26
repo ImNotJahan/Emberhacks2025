@@ -7,24 +7,28 @@ import json
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import check_password_hash, generate_password_hash
 
-auth = HTTPBasicAuth()
+#auth = HTTPBasicAuth()
 USERS = {
-    "alice": generate_password_hash("1111"),
-    "bob":   generate_password_hash("1111"),
+    "alice": "1111",
+    "bob":   "1111",
 }
-@auth.verify_password
-def verifylogin(username, password):
-    data = request.get_json()
-    username = data.get("username", "")
-    password = data.get("password", "")
-    if username in USERS and check_password_hash(USERS[username], password):
-        return username  # return any user object/identifier
-    else:
-        return render_template("accesdenined.html")
+
 
 app = Flask(__name__)
 manager = RequestsManager()
 console_txt = "Console"
+
+@app.route("/verifylogin")
+def verifylogin(username, password):
+    data = request.get_json()
+    username = data.get("username", "")
+    password = data.get("password", "")
+    if username in USERS and password == USERS[username]:
+        return username  # return any user object/identifier
+    else:
+        return render_template("index.html")
+
+
 @app.route("/")
 def home(): #Sets the website to index - main html
     return render_template("index.html")
