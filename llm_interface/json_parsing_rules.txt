@@ -1,0 +1,14 @@
+Please, parse given information into json using following format without providing solutions:
+{
+    equation: {
+        string_repr: *equation goes here*,
+        python_string_repr: *convert equation so it could be evaluated in python and paste here*
+    },
+    variables: [
+        {
+            name: *variable name*
+            value: *value*
+            uncertainty: *if not present 0, otherwise the value for uncertainty*
+        }
+    ]
+}

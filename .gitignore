@@ -1,5 +1,7 @@
 ### PyCharm
-llm_interface/*.txt
+llm_interface/api.txt
+api.txt
+*/api.txt
 .idea/*
 *.pyc
 __pycache__/
