@@ -6,14 +6,14 @@ document.getElementById("Btn_input").addEventListener("click", async () => {
   console_txt.innerHTML = "Calculating...";
   console_txt.style.color = "black";
 
-  //Sends the input
-  const response = await fetch("/getInput", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text: text_input.value })
-  });
+    //Sends the input
+    const response = await fetch("/getInput", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: text_input.value })
+    });
+  
   const data = await response.json();
-
   if(data.failed) {
     responses.style.display = "none";
     console_txt.innerHTML   = data.console;
@@ -27,6 +27,4 @@ document.getElementById("Btn_input").addEventListener("click", async () => {
   document.getElementById("equ").innerHTML     = data.equ; // display composite solution
   document.getElementById("val").innerHTML     = data.val; // display result
   document.getElementById("console").innerHTML = data.console; // update console
-
-  console.log(data)
 });

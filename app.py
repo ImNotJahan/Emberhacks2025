@@ -7,39 +7,25 @@ import json
 
 app = Flask(__name__)
 manager = RequestsManager()
-console_txt = "Console"
 
 @app.route("/")
 def home(): #Sets the website to index - main html
     return render_template("index.html")
-@app.route("/sighnin")
-def sighnin():
-    return render_template("sighnin.html")
-@app.route("/login")
-def login():
-    return render_template("login.html")
 
 @app.route("/getInput", methods=["POST"])  #Gets the req
 def getInput():
     data = request.get_json()
     text = data.get("text", "")
-
     response = manager.get_response(text)
-
     # check if an error occurred
     if response[:5] == "[ERR]":
         return Response(
             json.dumps({"failed": True, "console": response[5:]}),
             mimetype="application.json"
         )
-
-    answerDic, equationPy = parse_json(response)
-    value, solution, equation = send_llm_parsing(equationPy,answerDic)
-
-    console_txt = "Done!"
-
-    payload = {"val": value, "sol": solution, "equ": equation, "console": console_txt, "failed": False}
-
+    dictionery, equationPY = parse_json(response)
+    value, solution, equation = send_llm_parsing(equationPY,dictionery)
+    payload = {"val": value, "sol": solution, "equ": equation, "console": "Done!", "failed": False}
     return Response(
         json.dumps(payload, ensure_ascii=False),
         mimetype="application/json"
@@ -47,8 +33,6 @@ def getInput():
 
 def start_server():
     print("=== Starting server ===")
-
     app.run()
-
     print("=== Server closed ===")
 #python -m flask run
