@@ -34,7 +34,7 @@ class MeasuredData(md):
             (result := super().__radd__(other)).value,
             result.error(),
             r"@y@+@x@",
-            r"\sqrt{@s_y@^2+@s_x@^2}" if isinstance(other, MeasuredData) else r"@s_y@",
+            r"\sqrt{@s_y@^2+@s_x@^2}" if isinstance(other, MeasuredData) else r"@s_x@",
             [self, other]
         )
 
@@ -152,9 +152,6 @@ class MeasuredData(md):
         )
 
     # from here on out, we have some latex_extension unique methods for MeasuredData
-
-    def uncertainty_equations(self, max_depth: int) -> list[tuple[str, tuple]]:
-        pass
 
     def recent_step(self, value_step, plug_in_vars=True, trunc_nums=True, add_parenthesis=True) -> str:
         if value_step:
