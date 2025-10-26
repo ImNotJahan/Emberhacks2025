@@ -7,6 +7,7 @@ import json
 
 app = Flask(__name__)
 manager = RequestsManager()
+console_txt = "Console"
 
 @app.route("/")
 def home(): #Sets the website
@@ -21,8 +22,8 @@ def getInput():
     print(value)
     print(solution)
     print(equation)
-
-    payload = {"val": value, "sol": solution, "equ": equation}
+    console_txt = "Done!"
+    payload = {"val": value, "sol": solution, "equ": equation, "console": console_txt}
 
     return Response(
         json.dumps(payload, ensure_ascii=False),

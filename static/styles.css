@@ -33,7 +33,9 @@ body {
   display: flex;
   flex-direction: column;
 }
-
+#console{
+  color: red;
+}
 /* Center the main content and give it breathing room */
 main {
   width: min(900px, 92vw);
