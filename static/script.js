@@ -7,8 +7,9 @@ document.getElementById("Btn_input").addEventListener("click", async () => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text: input })
   });
-  document.getElementById("responseText").textContent = data.message;//Prints out the values ----TEST TEST TEST
+  const data = await response.json();
   document.getElementById("sol").textContent = data.sol;//Prints out the values
   document.getElementById("equ").textContent = data.equ;//Prints out the values
   document.getElementById("val").textContent = data.val;//Prints out the values
+  console.log(data)
 });

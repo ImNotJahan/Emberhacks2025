@@ -12,15 +12,14 @@ def home(): #Sets the website
 
 @app.route("/getInput", methods=["POST"])  #Gets the input
 def getInput():
-    value = "1"
-    solution = "solution 1111+1111=2222"
-    equation = "equation***"
-    
     data = request.get_json()
     text = data.get("text", "")
     answerDic, equationPy = parse_json(manager.get_response(text))
-    send_llm_parsing(equationPy,answerDic)
-    return jsonify({"message": f"Answer: {answerDic}"},{"val": f"Answer: {value}"},{"sol": f"Answer: {solution}"},{"equ": f"Answer: {equation}"}) #Gives out the answer
+    value, solution, equation = send_llm_parsing(equationPy,answerDic)
+    print(value)
+    print(solution)
+    print(equation)
+    return jsonify({"val": value, "sol": solution, "equ": equation}) #Gives out the answer
 
 def start_server():
     print("=== Starting server ===")

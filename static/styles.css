@@ -9,27 +9,173 @@
 		background-position: 0% 50%;
 	}
 }
+/* ===== Base / Layout ===== */
+:root{
+  --bg:#f6f7fb;
+  --card:#ffffff;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --accent:#2563eb;
+  --accent-contrast:#ffffff;
+  --border:#e5e7eb;
+  --shadow:0 10px 25px rgba(0,0,0,.06);
+  --radius:14px;
+  --gap:16px;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
 body {
-  font-family: Arial, sans-serif;
-  color: #333;
-  background:  linear-gradient(-45deg, #eeff00,#ffb300, #ff0000);
-  background-size: 300% 300%;
   margin: 0;
-  padding: 20px;
+  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  background: linear-gradient(rgb(113, 113, 253),rgb(255, 105, 235),rgb(62, 62, 255));
+  display: flex;
+  flex-direction: column;
 }
-#input{
-  width: 300px;
-  height: 40px;
-  font-size: 18px;
-  padding: 8px;
+
+/* Center the main content and give it breathing room */
+main {
+  width: min(900px, 92vw);
+  margin: 24px auto 64px;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--gap) * 1.25);
+}
+
+/* ===== Header ===== */
+header {
+  background: var(--card);
+  box-shadow: var(--shadow);
+  border-bottom: 1px solid var(--border);
+}
+header h1 {
+  margin: 0;
+  padding: 20px clamp(16px, 4vw, 28px);
+  font-size: clamp(20px, 3.8vw, 32px);
+  letter-spacing: .3px;
+}
+
+/* ===== Sections ===== */
+section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(16px, 3.2vw, 24px);
+  box-shadow: var(--shadow);
+}
+
+#inputs h2 {
+  margin-top: 0;
+  font-size: clamp(16px, 2.6vw, 20px);
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Column: stack textarea + button with spacing */
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--gap);
+  margin-top: 10px;
+}
+
+/* ===== Form controls ===== */
+textarea#input {
+  width: 100%;
+  min-height: 140px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font: inherit;
+  outline: none;
+  background: #fff;
+  transition: border-color .15s ease, box-shadow .15s ease;
+  resize: vertical; /* allow manual grow */
+}
+textarea#input::placeholder { color: #9ca3af; }
+textarea#input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 25%, transparent);
+}
+
+/* Button */
+#Btn_input {
+  align-self: flex-start;         /* keep narrow like a button */
+  padding: 10px 18px;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border: 1px solid color-mix(in oklab, var(--accent) 70%, black);
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .06s ease, filter .15s ease, box-shadow .15s ease;
+  box-shadow: 0 6px 14px rgba(37, 99, 235, .18);
+  
+}
+#Btn_input:hover { filter: brightness(1.05); }
+#Btn_input:active { transform: translateY(1px); }
+#Btn_input:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===== Response text / values ===== */
+#responseText { margin: 0 2px 6px; color: var(--muted); }
+#val { font-weight: 700; font-size: 18px; margin: 8px 2px 0; }
+
+/* ===== Details / Summary (collapsible) ===== */
+details {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  background: #fff;
+  transition: border-color .15s ease, box-shadow .15s ease;
+  margin-bottom: 10px;
+}
+details[open] {
+  border-color: color-mix(in oklab, var(--accent) 35%, var(--border));
+  box-shadow: 0 6px 16px rgba(0,0,0,.07);
+}
+summary {
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none; /* hide default marker in some browsers */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+summary::-webkit-details-marker { display: none; }
+/* custom caret */
+summary::before {
+  content: "▶";
+  font-size: 12px;
+  transform: translateY(1px);
+  transition: transform .15s ease;
+}
+details[open] summary::before { transform: rotate(90deg) translateY(0); }
+
+/* Inner paragraphs in details */
+#sol, #equ {
+  margin: 10px 2px 4px;
+  color: #374151;
+}
+
+/* ===== Utilities ===== */
+@media (min-width: 720px) {
+  /* Put textarea and button on one line if you ever want that layout */
+  .column.row-on-wide {
+    flex-direction: row;
+    align-items: center;
+  }
+  .column.row-on-wide > :first-child { flex: 1; }
+}
+
+/* Optional: nice focus ring for keyboard users */
+:focus-visible {
+  outline: 3px solid color-mix(in oklab, var(--accent) 35%, transparent);
+  outline-offset: 2px;
   border-radius: 8px;
-  border: 1px solid #ccc; 
-}
-#Btn_input{
-  width: 100px;
-  height: 30px;
-}
-h2,h1{
-  width:50%;
-  color: white;
 }
