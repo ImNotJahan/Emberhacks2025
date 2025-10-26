@@ -1,4 +1,30 @@
 from latex_extension.data import MeasuredData
+import math
+
+def sin(x: float | MeasuredData):
+    if isinstance(x, MeasuredData):
+        return x.sine()
+    return math.sin(x)
+
+def cos(x: float | MeasuredData):
+    if isinstance(x, MeasuredData):
+        return x.cosine()
+    return math.cos(x)
+
+def tan(x: float | MeasuredData):
+    if isinstance(x, MeasuredData):
+        return x.tangent()
+    return math.tan(x)
+
+def asin(x: float | MeasuredData):
+    if isinstance(x, MeasuredData):
+        return x.arcsin()
+    return math.asin(x)
+
+def atan(x: float | MeasuredData):
+    if isinstance(x, MeasuredData):
+        return x.arctan()
+    return math.asin(x)
 
 def send_llm_parsing(equation: str, variables: dict[str, MeasuredData | float]) -> tuple[str, str, str]:
     """
@@ -8,7 +34,10 @@ def send_llm_parsing(equation: str, variables: dict[str, MeasuredData | float]) 
     for the value and for the uncertainty, which culminate all the calculations of the expression into single equations.
     """
 
-    result = eval(equation, variables)
+    env = {"sin": sin, "cos": cos, "tan": tan, "asin": asin, "atan": atan}
+    env.update(variables)
+
+    result = eval(equation, env)
     table_wrapper  = "<table>{}</table>"
     header_wrapper = "<tr><th>{}</th><th>{}</th><th>{}</th><th>{}</th></tr>"
     row_wrapper    = "<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>"

@@ -2,7 +2,7 @@ Please, parse given information into json using following format without providi
 {
     equation: {
         string_repr: *equation goes here*,
-        python_string_repr: *convert equation so it could be evaluated in python and paste here*
+        python_string_repr: *convert equation so it could be evaluated in python and paste here. Do not include "math." prefixes*
     },
     variables: [
         {
