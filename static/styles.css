@@ -22,7 +22,14 @@
   --radius:14px;
   --gap:16px;
 }
-
+a{
+  background-color: rgb(150, 175, 178);
+  margin: 20px;
+  padding: 3px clamp(16px, 4vw, 28px);
+  border-radius: 10px;
+  color: black;
+  text-decoration: none;
+}
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 body {
