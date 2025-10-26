@@ -1,7 +1,7 @@
 import os.path
 import sqlite3
 
-from auth.models import *
+from auth.models import User, UserDto, RequestDto, RequestDtoResponse, Request
 from typing import Optional
 
 class Database:
