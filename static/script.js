@@ -1,18 +1,16 @@
 const console_txt = document.getElementById("console");
 const responses   = document.getElementById("responses");
+const text_input  = document.getElementById("input");
 
 document.getElementById("Btn_input").addEventListener("click", async () => {
-  const input = document.getElementById("input").value;
-  isWaiting = false
-
-  document.getElementById("console").innerHTML = "Calculating...";
+  console_txt.innerHTML = "Calculating...";
   console_txt.style.color = "black";
-  
+
   //Sends the input
   const response = await fetch("/getInput", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text: input })
+    body: JSON.stringify({ text: text_input.value })
   });
   const data = await response.json();
 
@@ -25,9 +23,10 @@ document.getElementById("Btn_input").addEventListener("click", async () => {
     responses.style.display = "block";
   }
 
-  document.getElementById("sol").innerHTML = data.sol;//Prints out the values
-  document.getElementById("equ").innerHTML = data.equ;//Prints out the values
-  document.getElementById("val").innerHTML = data.val;//Prints out the values
-  document.getElementById("console").innerHTML = data.console;//Prints out the values
+  document.getElementById("sol").innerHTML     = data.sol; // display sequential solution
+  document.getElementById("equ").innerHTML     = data.equ; // display composite solution
+  document.getElementById("val").innerHTML     = data.val; // display result
+  document.getElementById("console").innerHTML = data.console; // update console
+
   console.log(data)
 });

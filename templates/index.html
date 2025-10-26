@@ -11,7 +11,7 @@
 </head>
 <body>
   <header>
-    <h1>Uncertainty Propagator</h1>
+    <h1>certainPY &mdash; A Formula-full Uncertainty Propagator</h1>
     <nav>
       <a href="\">Home</a>
       <a href="login">Login</a>
@@ -20,12 +20,10 @@
   </header>
   <main>
     <section id="inputs">
-      <h2>Write the formula, variables, units (SI format) and all known uncertainties for the calculation in text or LateX form</h2>
+      <h2>Input your formula and variables, you'd like to evaluate, with any known uncertainties specified</h2>
       <div class="column">
         <div>
-          <textarea id="input" placeholder="I have an equation for calculating potential spring energy,
-          c*k*(xi_c-xi_u)^2, such that c=0.5, k=98.0\pm4, xi_c=0.903 and xi_u=0.871, where both xi_c and xi_u have an
-          uncertainty of 0.005"></textarea>
+          <textarea id="input" placeholder="I have an equation for calculating potential spring energy, c*k*(xi_c-xi_u)^2, such that c=0.5, k=98.0\pm4, xi_c=0.903 and xi_u=0.871, where both xi_c and xi_u have an uncertainty of 0.005"></textarea>
         </div>
         <div>
           <button type = "submit" id="Btn_input">SUBMIT</button>
