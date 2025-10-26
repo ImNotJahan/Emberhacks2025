@@ -2,7 +2,7 @@ import os.path
 import sqlite3
 
 from auth.models import *
-from typing import Any, Optional
+from typing import Optional
 
 class Database:
     def __init__(self):
@@ -62,39 +62,45 @@ class Database:
         self.__exec(sql, data)
         user = User.from_dto(user_dto)
         user.id = self.__cur.lastrowid
-        print("[Res")
+        print("[INFO] Created " + repr(user))
         return user
 
     def get_user(self, user_id: int) -> Optional[User]:
         sql = "SELECT id, username, email, password FROM users WHERE id = ?"
         self.__exec(sql, (user_id,))
-
+        print(f"[INFO] GET users/{user_id}")
         record = self.__cur.fetchone()
-
         if record is None:
             return None
-        return User.from_record(record)
+        user = User.from_record(record)
+        print(f"[INFO] " + repr(user))
+        return user
 
     def post_request(self, dto: RequestDto) -> RequestDtoResponse:
-        if dto.author_id is None or self.get_user(dto.author_id):
+        if dto.author_id is None or self.get_user(dto.author_id) is None:
             raise
         sql = ("INSERT INTO requests (author_id, req, response, created)"
                " VALUES (?, ?, ?, ?)")
         request = Request.from_dto(dto)
         data = (request.author_id, request.req, request.response,
                 request.timestamp)
+        print("[INFO] POST requests")
         self.__exec(sql, data)
         request.id = self.__cur.lastrowid
+        print("[INFO] Created " + repr(request))
         return request.to_dto()
 
-    def get_all_requests_by_user_id(self, user_id: int) -> list[RequestDto]:
+    def get_all_requests_by_user_id(self, user_id: int) \
+            -> list[RequestDtoResponse]:
         if self.get_user(user_id) is None:
             raise
-
         sql = "SELECT * FROM requests WHERE author_id = ?"
+        print(f"GET requests/{user_id}")
         self.__exec(sql, (user_id, ))
-        return [Request.from_record(record).to_dto()
+        lst: list[RequestDtoResponse] = [Request.from_record(record).to_dto()
                 for record in self.__cur.fetchall()]
+        print(f"[INFO] Response: {lst}")
+        return lst
 
     def __del__(self):
         try:
