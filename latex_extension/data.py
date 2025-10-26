@@ -7,18 +7,23 @@ self_mapping_var_letters.update({"s_" + x: "s_" + x for x in var_letters})
 class MeasuredData(md):
     """
     The (latex-extended) MeasuredData class creates a data point which automatically propagates uncertainty with
-    every calculation done with, and keeps a log of each uncertainty calculation, allowing those calculations to be
-    formatted in LaTeX. Ok and for normal calculations, it seems we need. TODO rewrite this description better
+    every calculation done with, and keeps a log of every value and uncertainty calculation, allowing for generation
+    of LaTeX equations demonstrating the evaluation of the object's state.
     """
-    def __init__(self, measurement: float, error: float, value_step=None, uncertainty_step=None, step_variables=None):
+    def __init__(self, measurement: float, error: float,
+                 value_step=None, uncertainty_step=None, step_variables=None,
+                 value_wrapped=False, uncertainty_wrapped=False):
         super().__init__(measurement, error)
 
-        self.value_step       = value_step
-        self.uncertainty_step = uncertainty_step
-        self.has_steps        = value_step and uncertainty_step
-        self.step_variables   = step_variables
+        self.value_step          = value_step
+        self.uncertainty_step    = uncertainty_step
+        self.has_steps           = value_step and uncertainty_step
+        self.step_variables      = step_variables
+        # these are for deciding if parentheses should put around these equations when forming composites
+        self.value_wrapped       = value_wrapped
+        self.uncertainty_wrapped = uncertainty_wrapped
 
-    # for the most part, just overriding methods on the physics_tools MeasuredData to add more functionality
+    # for the most part, just overriding methods on the physics_tools MeasuredData to add LaTeX templates
 
     def __add__(self, other):
         return MeasuredData(
@@ -26,7 +31,9 @@ class MeasuredData(md):
             result.error(),
             r"@x@+@y@",
             r"\sqrt{@s_x@^2+@s_y@^2}" if isinstance(other, MeasuredData) else r"@s_x@",
-            [self, other]
+            [self, other],
+            True,
+            False
         )
 
     def __radd__(self, other):
@@ -35,7 +42,9 @@ class MeasuredData(md):
             result.error(),
             r"@y@+@x@",
             r"\sqrt{@s_y@^2+@s_x@^2}" if isinstance(other, MeasuredData) else r"@s_x@",
-            [self, other]
+            [self, other],
+            True,
+            False
         )
 
     def __sub__(self, other):
@@ -44,7 +53,9 @@ class MeasuredData(md):
             result.error(),
             r"@x@-@y@",
             r"\sqrt{@s_x@^2+@s_y@^2}"  if isinstance(other, MeasuredData) else r"@s_x@",
-            [self, other]
+            [self, other],
+            False,
+            False
         )
 
     def __mul__(self, other):
@@ -54,7 +65,9 @@ class MeasuredData(md):
             r"@x@\cdot@y@",
             r"@x@\cdot@y@\sqrt{\frac{@s_x@}{@x@}^2+\frac{@s_y@}{@y@}^2}" if isinstance(other, MeasuredData) else
             r"@s_x@\cdot@y@",
-            [self, other]
+            [self, other],
+            False,
+            True
         )
 
     def __rmul__(self, other):
@@ -64,7 +77,9 @@ class MeasuredData(md):
             r"@y@\cdot@x@",
             r"@x@\cdot@y@\sqrt{\frac{@s_y@}{@y@}^2+\frac{@s_x@}{@x@}^2}" if isinstance(other, MeasuredData) else
             r"@s_x@\cdot@y@",
-            [self, other]
+            [self, other],
+            False,
+            True
         )
 
     def __truediv__(self, other):
@@ -74,7 +89,9 @@ class MeasuredData(md):
             r"\frac{@x@}{@y@}",
             r"@x@\cdot@y@\sqrt{\frac{@s_x@}{@x@}^2+\frac{@s_y@}{@y@}^2}" if isinstance(other, MeasuredData) else
             r"\frac{@s_x@}{@y@}",
-            [self, other]
+            [self, other],
+            True,
+            True
         )
 
     def __pow__(self, other: int):
@@ -83,7 +100,10 @@ class MeasuredData(md):
             result.error(),
             r"@x@^{@y@}",
             r"\left|@y@\cdot@s_x@\cdot@x@^{@y@ - 1}\right|",
-            [self, other]
+            [self, other],
+            False,
+            False
+
         )
 
     def sine(self):
@@ -92,7 +112,9 @@ class MeasuredData(md):
             result.error(),
             r"\sin @x@",
             r"\left|@s_x@ \cos @x@\right|",
-            [self]
+            [self],
+            False,
+            False
         )
 
     def cosine(self):
@@ -101,7 +123,9 @@ class MeasuredData(md):
             result.error(),
             r"\cos @x@",
             r"\left|@s_x@ \sin @x@\right|",
-            [self]
+            [self],
+            False,
+            False
         )
 
     def tangent(self):
@@ -110,7 +134,9 @@ class MeasuredData(md):
             result.error(),
             r"\tan @x@",
             r"\left|@s_x@ \sec @x@^2\right|",
-            [self]
+            [self],
+            False,
+            False
         )
 
     def arctan(self):
@@ -120,7 +146,9 @@ class MeasuredData(md):
             result.error(),
             r"\arctan @x@",
             r"\frac{@s_x@}{1+@x@^2}",
-            [self]
+            [self],
+            False,
+            False
         )
 
     def arcsin(self):
@@ -130,7 +158,9 @@ class MeasuredData(md):
             result.error(),
             r"\arcsin @x@",
             r"\frac{@s_x@}{\sqrt{1-@x@^2}}",
-            [self]
+            [self],
+            False,
+            False
         )
 
     def __neg__(self):
@@ -139,7 +169,9 @@ class MeasuredData(md):
             result.error(),
             r"-@x@",
             r"@s_x@",
-            [self]
+            [self],
+            False,
+            False
         )
 
     def __abs__(self):
@@ -148,12 +180,14 @@ class MeasuredData(md):
             result.error(),
             r"\left|@x@\right|",
             r"@s_x@",
-            [self]
+            [self],
+            False,
+            False
         )
 
     # from here on out, we have some latex_extension unique methods for MeasuredData
 
-    def recent_step(self, value_step, plug_in_vars=True, trunc_nums=True, add_parenthesis=True) -> str:
+    def recent_step(self, value_step, plug_in_vars=True, trunc_nums=True) -> str:
         if value_step:
             step = self.value_step
         else:
@@ -177,7 +211,7 @@ class MeasuredData(md):
             vals.update(err_vars)
         else:
             vals = self_mapping_var_letters
-        return at_format(step, vals, add_parenthesis)
+        return at_format(step, vals)
 
     def all_steps_sequential(self, plug_in_vars=True, trunc_nums=True) -> tuple[list[str], list[str], list]:
         value_steps       = []
@@ -186,8 +220,8 @@ class MeasuredData(md):
 
         # recursively add steps of any previously calculated MeasuredDatas to step lists
         def apnd_step(dp: MeasuredData):
-            value_steps.append(dp.recent_step(True, plug_in_vars, trunc_nums, False))
-            uncertainty_steps.append(dp.recent_step(False, plug_in_vars, trunc_nums, False))
+            value_steps.append(dp.recent_step(True, plug_in_vars, trunc_nums))
+            uncertainty_steps.append(dp.recent_step(False, plug_in_vars, trunc_nums))
 
             data_points.append(dp)
 
@@ -200,9 +234,35 @@ class MeasuredData(md):
         # reverse step lists so that earliest steps are first
         return value_steps[::-1], uncertainty_steps[::-1], data_points
 
-def at_format(s: str, vals: dict[str, MeasuredData | float], add_parenthesis=False):
+    def all_steps_composite(self, plug_in_vars=True, trunc_nums=True) -> tuple[str, str]:
+        def expand_eqs(dp: MeasuredData) -> tuple[str, str] | tuple[float, float]:
+            md_p = lambda x: isinstance(x, MeasuredData)  # measured data predicate (i.e., is measured data)
+            md_s = lambda x: str(x).split("±")  # measured data split
+            en_v = lambda: enumerate(dp.step_variables)  # enumerate (step) variables
+
+            if not dp.has_steps:
+                val, err = md_s(dp)
+                return float(val), float(err)
+
+            norm_vars = {var_letters[i]: expand_eqs(v)[0] for i, v in en_v() if md_p(v)}
+            norm_vars.update({var_letters[i]: v for i, v in en_v() if not md_p(v)})
+            err_vars = {"s_" + var_letters[i]: expand_eqs(v)[1] for i, v in en_v() if md_p(v)}
+
+            vals = norm_vars
+            vals.update(err_vars)
+
+            return (at_format(dp.value_step, vals, dp.value_wrapped),
+                    at_format(dp.uncertainty_step, vals, dp.uncertainty_wrapped))
+
+        value_eq, error_eq = expand_eqs(self)
+        return value_eq, error_eq
+
+def at_format(s: str, vals: dict[str, MeasuredData | float | str], abhor_parentheses=False):
     """
     Formats a string, replacing variables wrapped in @'s with values from a dict
+
+    Needed, since the built-in formatting methods do not play well with LaTeX (would either require an obscene number
+    of backslashes, or don't work with certain important characters.)
 
     >>> at_format("@hi@", {"hi": 7})
     '7'
@@ -226,7 +286,10 @@ def at_format(s: str, vals: dict[str, MeasuredData | float], add_parenthesis=Fal
 
         val = vals[v]
 
-        if add_parenthesis: formatted += r"\left("
+        # being a string indicates it's a compound equation
+        # (or could be a compound equation). Thus, we wrap
+        # in parentheses for safety
+        if isinstance(val, str) and not abhor_parentheses: formatted += r"\left("
 
         # for measured datas, make sure outputting in latex rep
         if isinstance(val, MeasuredData) or isinstance(val, md):
@@ -234,7 +297,7 @@ def at_format(s: str, vals: dict[str, MeasuredData | float], add_parenthesis=Fal
         else:
             formatted += str(val)
 
-        if add_parenthesis: formatted += r"\right)"
+        if isinstance(val, str) and not abhor_parentheses: formatted += r"\right)"
 
         s = s[x+1:]
 

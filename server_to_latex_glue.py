@@ -55,4 +55,8 @@ def send_llm_parsing(equation: str, variables: dict[str, MeasuredData | float]) 
 
     step_by_step = table_wrapper.format(step_by_step)
 
-    return str(result), step_by_step, "Long form equations (eventually)"
+    return (
+        str(result),
+        step_by_step,
+        "<h3>Value equation</h3>{}<br><h3>Uncertainty equation</h3>{}".format(*result.all_steps_composite())
+    )
