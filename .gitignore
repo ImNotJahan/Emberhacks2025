@@ -4,5 +4,6 @@ api.txt
 */api.txt
 .idea/*
 *.pyc
+*.db
 __pycache__/
 __pycache__/*

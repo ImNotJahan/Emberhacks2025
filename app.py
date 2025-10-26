@@ -13,7 +13,7 @@ console_txt = "Console"
 def home(): #Sets the website
     return render_template("index.html")
 
-@app.route("/getInput", methods=["POST"])  #Gets the input
+@app.route("/getInput", methods=["POST"])  #Gets the req
 def getInput():
     data = request.get_json()
     text = data.get("text", "")

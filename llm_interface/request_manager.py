@@ -65,9 +65,9 @@ class RequestsManager:
     def __format_log(x: Any, y: str | GCR) -> str | TypeError:
         """Logging function for debugging"""
         if isinstance(y, str):
-            return f"input: {x}\noutput: {y}\n"
+            return f"req: {x}\noutput: {y}\n"
         elif isinstance(y, GCR): # Use isinstance() instead of type() is Python best practice
-            return f"input: {x}\noutput: {y.text}\n"
+            return f"req: {x}\noutput: {y.text}\n"
         raise TypeError("Incorrect type")
 
     @staticmethod
@@ -82,7 +82,7 @@ class RequestsManager:
         :param input_prompt: prompt for LLM
         :return: LLM response
         """
-        self.__log.critical("Sending the request...")
+        self.__log.critical("Sending the req...")
         client = genai.Client()
         response = client.models.generate_content(
             model="gemini-2.5-flash", contents=input_prompt
