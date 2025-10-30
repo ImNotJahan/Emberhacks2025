@@ -1,8 +1,7 @@
-from latex_extension.data import MeasuredData
-from llm_interface.request_manager import RequestsManager
-from llm_to_server_glue            import parse_json
-from server_to_latex_glue          import env
-from os                            import path
+from ..llm_interface.request_manager import RequestsManager
+from ..llm_to_server_glue            import parse_json
+from ..server_to_latex_glue          import env
+from os                              import path
 
 manager = RequestsManager()
 

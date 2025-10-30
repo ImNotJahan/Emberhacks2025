@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
-from llm_interface.request_manager import RequestsManager
-from server_to_latex_glue import send_llm_parsing
-from llm_to_server_glue import parse_json
+from .llm_interface.request_manager import RequestsManager
+from .server_to_latex_glue import send_llm_parsing
+from .llm_to_server_glue import parse_json
 from flask import Response
 import json
 

@@ -4,8 +4,6 @@ from os import path
 from typing import Any
 import logging
 
-import llm_to_server_glue
-
 try:
     from google import genai
     from google.genai.types import GenerateContentResponse as GCR
@@ -44,8 +42,10 @@ class RequestsManager:
     def read_vars() -> IOError | tuple[str, str]:
         """Reads api_key and json_parsing_rules from the files to use later
         """
-        api_file_path = path.join("llm_interface", "api.txt")
-        rule_file_path = path.join("llm_interface", "json_parsing_rules.txt")
+        current_directory = path.dirname(os.path.abspath(__file__))
+
+        api_file_path = path.join(current_directory, "api.txt")
+        rule_file_path = path.join(current_directory, "json_parsing_rules.txt")
 
         assert os.path.exists(api_file_path), "api_key exists"
         assert os.path.exists(rule_file_path), "rules file exists"

@@ -1,4 +1,4 @@
-from latex_extension.data import MeasuredData
+from .latex_extension.data import MeasuredData
 import math
 
 def sin(x: float | MeasuredData):

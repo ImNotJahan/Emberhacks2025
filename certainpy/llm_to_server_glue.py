@@ -1,5 +1,5 @@
 import json
-from latex_extension.data import MeasuredData
+from .latex_extension.data import MeasuredData
 
 def parse_json(json_text: str) -> tuple[dict[str, MeasuredData | float], str]:
     """
