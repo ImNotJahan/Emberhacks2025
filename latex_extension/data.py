@@ -1,6 +1,13 @@
 from physics_tools.data import MeasuredData as md
 
-var_letters = ['x', 'y', 'z', 'w']
+class VariableLabel:
+    def __init__(self, label: str):
+        self.label = label
+
+    def __str__(self):
+        return self.label
+
+var_letters = ['x', 'y', 'z', 'w', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't']
 self_mapping_var_letters = {x: x for x in var_letters}
 self_mapping_var_letters.update({"s_" + x: "s_" + x for x in var_letters})
 
@@ -235,14 +242,28 @@ class MeasuredData(md):
         return value_steps[::-1], uncertainty_steps[::-1], data_points
 
     def all_steps_composite(self, plug_in_vars=True, trunc_nums=True) -> tuple[str, str]:
-        def expand_eqs(dp: MeasuredData) -> tuple[str, str] | tuple[float, float]:
+        seen_variables = {}
+
+        def expand_eqs(dp: MeasuredData) -> tuple[object, object]:
+            nonlocal seen_variables
+
             md_p = lambda x: isinstance(x, MeasuredData)  # measured data predicate (i.e., is measured data)
             md_s = lambda x: str(x).split("±")  # measured data split
             en_v = lambda: enumerate(dp.step_variables)  # enumerate (step) variables
 
             if not dp.has_steps:
-                val, err = md_s(dp)
-                return float(val), float(err)
+                if plug_in_vars:
+                    if trunc_nums:
+                        val, err = md_s(dp)
+                        return float(val), float(err)
+                    else:
+                        return dp.value, dp.error()
+                else:
+                    if dp not in seen_variables:
+                        seen_variables[dp] = var_letters[len(seen_variables)]
+
+                    return (VariableLabel(" {} ".format(seen_variables[dp])),
+                            VariableLabel(" s_{} ".format(seen_variables[dp])))
 
             norm_vars = {var_letters[i]: expand_eqs(v)[0] for i, v in en_v() if md_p(v)}
             norm_vars.update({var_letters[i]: v for i, v in en_v() if not md_p(v)})
