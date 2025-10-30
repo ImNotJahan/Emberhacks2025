@@ -26,6 +26,10 @@ def atan(x: float | MeasuredData):
         return x.arctan()
     return math.asin(x)
 
+
+env = {"sin": sin, "cos": cos, "tan": tan, "asin": asin, "atan": atan}
+
+
 def send_llm_parsing(equation: str, variables: dict[str, MeasuredData | float]) -> tuple[str, str, str]:
     """
     Takes in a python equation (as a string) and a dictionary full of variables, and then evaluates the expression
@@ -34,10 +38,9 @@ def send_llm_parsing(equation: str, variables: dict[str, MeasuredData | float]) 
     for the value and for the uncertainty, which culminate all the calculations of the expression into single equations.
     """
 
-    env = {"sin": sin, "cos": cos, "tan": tan, "asin": asin, "atan": atan}
-    env.update(variables)
+    variables.update(env)
 
-    result = eval(equation, env)
+    result = eval(equation, variables)
     table_wrapper  = "<table>{}</table>"
     header_wrapper = "<tr><th>{}</th><th>{}</th><th>{}</th><th>{}</th></tr>"
     row_wrapper    = "<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>"
