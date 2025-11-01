@@ -47,13 +47,25 @@ class RequestsManager:
         api_file_path = path.join(current_directory, "api.txt")
         rule_file_path = path.join(current_directory, "json_parsing_rules.txt")
 
-        assert os.path.exists(api_file_path), "api_key exists"
         assert os.path.exists(rule_file_path), "rules file exists"
 
         RequestsManager.__log.critical("Reading files...")
         key, rules = None, None
-        with open(api_file_path, "r") as f:
-            key = f.readline().split("=")[1]
+
+        if os.path.exists(api_file_path):
+            with open(api_file_path, "r") as f:
+                key = f.readline().split("=")[1]
+        else:
+            print("It seems you don't have an API key saved. In order to use the AI features of this package, you " +
+                  "need to provide a Google Gemini API key. Would you like to provide one now?")
+
+            if input("y/n ") == "y":
+                with open(api_file_path, "w") as f:
+                    key = input("Please enter your API key: ")
+                    f.write("API_KEY=" + key)
+            else:
+                exit()
+
         with open(rule_file_path, "r") as f:
             rules = "".join(f.readlines())
         if key is None or rules is None:

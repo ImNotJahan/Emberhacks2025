@@ -1,0 +1,3 @@
+physics-utils
+google-genai
+flask

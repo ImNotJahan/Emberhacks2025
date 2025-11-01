@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "certainpy"
+version = "0.0.1"
+description = "A library and interface for generating LaTeX representations of equations."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "GPL-3.0-only" }
+authors = [
+  { name = "Mikhail Novichonok" },
+  { name = "Jahan Rashidi" },
+  { name = "Kirll Zakharov" }
+]
+dependencies = [
+  "physics-utils",
+  "google-genai",
+  "flask"
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/ImNotJahan/certainpy"
+Source = "https://github.com/ImNotJahan/certainpy"
+Issues = "https://github.com/ImNotJahan/certainpy/issues"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+exclude = ["tests", "docs", "examples"]

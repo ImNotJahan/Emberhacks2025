@@ -1,4 +1,4 @@
-from physics_tools.data import MeasuredData as md
+from physics_utils.data import MeasuredData as md
 
 class VariableLabel:
     def __init__(self, label: str):
